@@ -41,28 +41,6 @@ fi
 
 os_version=""
 
-# os version
-if [[ -f /etc/os-release ]]; then
-    os_version=$(awk -F'[= ."]' '/VERSION_ID/{print $3}' /etc/os-release)
-fi
-if [[ -z "$os_version" && -f /etc/lsb-release ]]; then
-    os_version=$(awk -F'[= ."]+' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release)
-fi
-
-if [[ x"${release}" == x"centos" ]]; then
-    if [[ ${os_version} -le 6 ]]; then
-        LOGE "请使用 CentOS 7 或更高版本的系统！\n" && exit 1
-    fi
-elif [[ x"${release}" == x"ubuntu" ]]; then
-    if [[ ${os_version} -lt 16 ]]; then
-        LOGE "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
-    fi
-elif [[ x"${release}" == x"debian" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        LOGE "请使用 Debian 8 或更高版本的系统！\n" && exit 1
-    fi
-fi
-
 confirm() {
     if [[ $# > 1 ]]; then
         echo && read -p "$1 [默认$2]: " temp
